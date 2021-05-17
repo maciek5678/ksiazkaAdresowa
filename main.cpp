@@ -293,15 +293,17 @@ void zapiszAdresyDoPliku(int liczbaUzytkownikow,int idUzytkownika)
             }
             else
             {
-                if (liczbaDanych==0)
+                if (liczbaDanych==0){
                     plikzapisu<<znajomi[liczbaWykorztstanychDanychZWektora].id<<'|'<<znajomi[liczbaWykorztstanychDanychZWektora].idUzytkownika<<'|'<<znajomi[liczbaWykorztstanychDanychZWektora].imie<<'|'<<znajomi[liczbaWykorztstanychDanychZWektora].nazwisko<<
                               '|'<<znajomi[liczbaWykorztstanychDanychZWektora].numerTelefonu<<'|'<<znajomi[liczbaWykorztstanychDanychZWektora].adres<<'|'<<znajomi[liczbaWykorztstanychDanychZWektora].email<<'|';
-                else if (liczbaWykorztstanychDanychZWektora<liczbaUzytkownikow)
-                    plikzapisu<< endl<<znajomi[liczbaWykorztstanychDanychZWektora].id<<'|'<<znajomi[liczbaWykorztstanychDanychZWektora].idUzytkownika<<'|'<<znajomi[liczbaWykorztstanychDanychZWektora].imie<<'|'<<znajomi[liczbaWykorztstanychDanychZWektora].nazwisko<<
+                              liczbaWykorztstanychDanychZWektora++;
+                liczbaDanych++;}
+                else if (liczbaWykorztstanychDanychZWektora<liczbaUzytkownikow&&znajomi[liczbaWykorztstanychDanychZWektora].id<=znajomyLokalny.id)
+                    {plikzapisu<< endl<<znajomi[liczbaWykorztstanychDanychZWektora].id<<'|'<<znajomi[liczbaWykorztstanychDanychZWektora].idUzytkownika<<'|'<<znajomi[liczbaWykorztstanychDanychZWektora].imie<<'|'<<znajomi[liczbaWykorztstanychDanychZWektora].nazwisko<<
                               '|'<<znajomi[liczbaWykorztstanychDanychZWektora].numerTelefonu<<'|'<<znajomi[liczbaWykorztstanychDanychZWektora].adres<<'|'<<znajomi[liczbaWykorztstanychDanychZWektora].email<<'|';
                 liczbaWykorztstanychDanychZWektora++;
                 liczbaDanych++;
-            }
+           } }
 
 
 
