@@ -1,4 +1,5 @@
 #include <iostream>
+#include "uzytkownicy.h"
 #include <fstream>
 #include <cstdlib>
 #include <windows.h>
@@ -6,13 +7,8 @@
 #include <vector>
 #include <conio.h>
 #include <cstdio>
+
 using namespace std;
-struct uzytkownicy
-{
-    int id;
-    string login;
-    string haslo;
-};
 struct znajomy
 {
     int id;
@@ -23,112 +19,7 @@ struct znajomy
     string adres;
     string email;
 };
-vector<uzytkownicy> uzytkownik;
 vector<znajomy> znajomi;
-void pokazMenu(int idUzytkownika,int liczbaLoginow );
-void pokazUzytkownika (int liczbaPorzadkowa)
-{
-    cout<<"ID: "<<  znajomi[liczbaPorzadkowa].id<<endl;
-    cout<<"ID uzytkownika: "<<  znajomi[liczbaPorzadkowa].idUzytkownika<<endl;
-    cout<<"Imie: "<<  znajomi[liczbaPorzadkowa].imie<<endl;
-    cout<<"Nazwisko: "<<  znajomi[liczbaPorzadkowa].nazwisko<<endl;
-    cout<<"Numer telefonu: "<<  znajomi[liczbaPorzadkowa].numerTelefonu<<endl;
-    cout<<"Adres: "<<  znajomi[liczbaPorzadkowa].adres<<endl;
-    cout<<"E-mail: "<<  znajomi[liczbaPorzadkowa].email<<endl;
-    cout<<endl;
-}
-int pokazNajwiekszeID()
-{
-    fstream plik;
-    int najwiekszeID=0;
-    if(plik.good()==true)
-        plik.open("dane_adresowe.txt",ios::in);
-    if(plik.good()==false)
-    {
-        return najwiekszeID;
-    }
-    else
-    {
-        string linia;
-        znajomy znajomyLokalny;
-        string konwersjaStringNaInt;
-
-        do
-        {
-
-            getline(plik,konwersjaStringNaInt,'|');
-
-            znajomyLokalny.id=atoi( konwersjaStringNaInt.c_str());
-
-            getline(plik,konwersjaStringNaInt,'|');
-
-            znajomyLokalny.idUzytkownika=atoi( konwersjaStringNaInt.c_str());
-
-            getline(plik,znajomyLokalny.imie,'|') ;
-
-            getline(plik,znajomyLokalny.nazwisko,'|');
-
-            getline(plik,znajomyLokalny.numerTelefonu,'|');
-
-            getline(plik,znajomyLokalny.adres,'|');
-
-            getline(plik,znajomyLokalny.email,'|');
-
-            if (znajomyLokalny.id>najwiekszeID)
-                najwiekszeID=znajomyLokalny.id;
-
-
-
-
-
-
-        }
-        while(getline(plik,linia));
-        plik.close();
-    }
-    return najwiekszeID;
-}
-int przepiszDaneUzytkownikow(int liczbaLoginow)
-{
-    fstream plik;
-    if(plik.good()==true)
-        plik.open("Uzytkownicy.txt",ios::in);
-    if(plik.good()==false)
-    {
-
-        ofstream plik( "Uzytkownicy.txt" );
-        plik.open("Uzytkownicy.txt",ios::in);
-
-    }
-    else
-    {
-        string linia;
-        uzytkownicy uzytkownikLokalny;
-        uzytkownik.clear();
-        string konwersjaStringNaInt;
-        do
-        {
-
-            getline(plik,konwersjaStringNaInt,'|');
-
-            uzytkownikLokalny.id=atoi( konwersjaStringNaInt.c_str());
-
-            getline(plik,uzytkownikLokalny.login,'|') ;
-
-            getline(plik,uzytkownikLokalny.haslo,'|');
-
-            uzytkownik.push_back(uzytkownikLokalny);
-
-            liczbaLoginow++;
-
-        }
-        while(getline(plik,linia));
-        plik.close();
-    }
-
-    return liczbaLoginow;
-
-}
 int przepiszDane(int liczbaUzytkownikow,int idUzytkownika)
 {
     fstream plik;
@@ -182,69 +73,57 @@ int przepiszDane(int liczbaUzytkownikow,int idUzytkownika)
     }
     return liczbaUzytkownikow;
 }
-void logowanie(int liczbaLoginow)
+int pokazNajwiekszeID()
 {
-    string login, haslo;
-    cout<<"Podaj login: ";
-    cin>>login;
-    cout<<"Podaj haslo: ";
-    cin>>haslo;
-    for (int i=0; i<liczbaLoginow; i++)
-    {
-        if(login==uzytkownik[i].login && haslo==uzytkownik[i].haslo)
-        {
-            cout<<"Zalogowano"<<endl;
-            cout<<uzytkownik[i].id<<endl;
-            system("pause");
-            pokazMenu (uzytkownik[i].id, liczbaLoginow);
-            break;
-        }
-    }
-
-}
-
-void zapiszUzytkownikowDoPliku(int liczbaLoginow)
-{
-    ofstream plik;
-    plik.open("Uzytkownicy.txt",ios::out);
+    fstream plik;
+    int najwiekszeID=0;
     if(plik.good()==true)
-
+        plik.open("dane_adresowe.txt",ios::in);
+    if(plik.good()==false)
     {
-        for (int i=0; i<liczbaLoginow; i++)
+        return najwiekszeID;
+    }
+    else
+    {
+        string linia;
+        znajomy znajomyLokalny;
+        string konwersjaStringNaInt;
+
+        do
         {
-            if (i==0)
-                plik<<uzytkownik[i].id<<'|'<<uzytkownik[i].login<<'|'<<uzytkownik[i].haslo<<'|';
-            else
-                plik<<endl<<uzytkownik[i].id<<'|'<<uzytkownik[i].login<<'|'<<uzytkownik[i].haslo<<'|';
+
+            getline(plik,konwersjaStringNaInt,'|');
+
+            znajomyLokalny.id=atoi( konwersjaStringNaInt.c_str());
+
+            getline(plik,konwersjaStringNaInt,'|');
+
+            znajomyLokalny.idUzytkownika=atoi( konwersjaStringNaInt.c_str());
+
+            getline(plik,znajomyLokalny.imie,'|') ;
+
+            getline(plik,znajomyLokalny.nazwisko,'|');
+
+            getline(plik,znajomyLokalny.numerTelefonu,'|');
+
+            getline(plik,znajomyLokalny.adres,'|');
+
+            getline(plik,znajomyLokalny.email,'|');
+
+            if (znajomyLokalny.id>najwiekszeID)
+                najwiekszeID=znajomyLokalny.id;
+
+
+
+
+
+
+
         }
+        while(getline(plik,linia));
         plik.close();
     }
-}
-int rejestracja(int liczbaLoginow)
-{
-    uzytkownicy uzytkownikLokalny;
-
-    cout<<"Podaj login: ";
-    cin>>uzytkownikLokalny.login;
-    for (int i=0; i<liczbaLoginow; i++)
-    {
-        if(uzytkownikLokalny.login==uzytkownik[i].login )
-        {
-            i=0;
-            cout<<"Uzytkownik wystepuje. Podaj inny login: "<<endl;
-            cin>>uzytkownikLokalny.login;
-        }
-    }
-    cout<<"Podaj haslo: ";
-    cin>>uzytkownikLokalny.haslo;
-    if(liczbaLoginow>0)
-        uzytkownikLokalny.id=uzytkownik[liczbaLoginow-1].id+1;
-    else
-        uzytkownikLokalny.id=0;
-    uzytkownik.push_back(uzytkownikLokalny);
-    liczbaLoginow++;
-    zapiszUzytkownikowDoPliku( liczbaLoginow);
-    return liczbaLoginow;
+    return najwiekszeID;
 }
 
 void zapiszAdresyDoPliku(int liczbaUzytkownikow,int idUzytkownika)
@@ -355,6 +234,9 @@ void zapiszAdresyDoPliku(int liczbaUzytkownikow,int idUzytkownika)
     }
 
 }
+
+
+
 int zapiszDane(int liczbaUzytkownikow,int idUzytkownika)
 {
     string imie, nazwisko,numerTelefonu,adres,email;
@@ -409,8 +291,17 @@ int zapiszDane(int liczbaUzytkownikow,int idUzytkownika)
     return liczbaUzytkownikow+1;
 
 }
-
-
+void pokazUzytkownika (int liczbaPorzadkowa)
+{
+    cout<<"ID: "<<  znajomi[liczbaPorzadkowa].id<<endl;
+    cout<<"ID uzytkownika: "<<  znajomi[liczbaPorzadkowa].idUzytkownika<<endl;
+    cout<<"Imie: "<<  znajomi[liczbaPorzadkowa].imie<<endl;
+    cout<<"Nazwisko: "<<  znajomi[liczbaPorzadkowa].nazwisko<<endl;
+    cout<<"Numer telefonu: "<<  znajomi[liczbaPorzadkowa].numerTelefonu<<endl;
+    cout<<"Adres: "<<  znajomi[liczbaPorzadkowa].adres<<endl;
+    cout<<"E-mail: "<<  znajomi[liczbaPorzadkowa].email<<endl;
+    cout<<endl;
+}
 void pokazanieWszystkichDanych(int liczbaUzytkownikow, int idUzytkownika)
 {
 
@@ -470,6 +361,7 @@ void wyszukiwaniePoImieniu(int liczbaUzytkownikow, int idUzytkownika)
     }
     system("pause");
 }
+
 void edytujKontakt(int liczbaUzytkownikow, int idUzytkownika)
 {
     int id;
@@ -578,6 +470,7 @@ int usunKontakt(int liczbaUzytkownikow, int idUzytkownika)
             cout<<"Nie znaleziono id. Podaj inne: ";
             cin>>id;
             i=0;
+
         }
         else
         {
@@ -595,8 +488,9 @@ int usunKontakt(int liczbaUzytkownikow, int idUzytkownika)
     }
     return liczbaUzytkownikow;
 }
-void zmienHaslo(int liczbaLoginow,int idUzytkownika)
+void zmienHaslo(int liczbaLoginow,int idUzytkownika, vector<Uzytkownicy> &uzytkownik)
 {
+    Uzytkownicy uz;
     string haslo;
     cout<<"Podaj nowe haslo: ";
     cin>> haslo;
@@ -608,27 +502,10 @@ void zmienHaslo(int liczbaLoginow,int idUzytkownika)
             break;
         }
     }
-    zapiszUzytkownikowDoPliku( liczbaLoginow);
-}
-int rozmiarDanych ()
-{
-    fstream plik;
-
-    plik.open("dane_adresowe.txt",ios::in);
-    int liczbaLinii=0;
-    if(plik.good()==true)
-    {
-        string linia;
-
-        while (getline(plik,linia))
-            liczbaLinii++;
-
-    }
-    return liczbaLinii;
+    uz.zapiszUzytkownikowDoPliku( liczbaLoginow,uzytkownik);
 }
 
-
-void pokazMenu(int idUzytkownika,int liczbaLoginow)
+void pokazMenu(int idUzytkownika,int liczbaLoginow,vector<Uzytkownicy> &uzytkownik)
 
 {
     int liczbaUzytkownikow=0;
@@ -681,7 +558,7 @@ void pokazMenu(int idUzytkownika,int liczbaLoginow)
         }
         else if(wybor=='7')
         {
-            zmienHaslo(liczbaLoginow,idUzytkownika);
+            zmienHaslo(liczbaLoginow,idUzytkownika, uzytkownik);
 
         }
 
@@ -695,9 +572,11 @@ void pokazMenu(int idUzytkownika,int liczbaLoginow)
 }
 int main()
 {
+    Uzytkownicy uz;
+    vector<Uzytkownicy> uzytkownik;
     int liczbaLoginow=0;
     int idLogowania;
-    liczbaLoginow=przepiszDaneUzytkownikow(liczbaLoginow);
+    liczbaLoginow=uz.przepiszDaneUzytkownikow(liczbaLoginow,uzytkownik);
     while (1)
 
 
@@ -711,12 +590,11 @@ int main()
 
         if(wybor=='1')
         {
-
-            logowanie(liczbaLoginow);
+            uz.logowanie(liczbaLoginow, uzytkownik);
         }
         else if(wybor=='2')
         {
-            liczbaLoginow=rejestracja(liczbaLoginow);
+            liczbaLoginow=uz.rejestracja(liczbaLoginow, uzytkownik);
         }
         else if(wybor=='3')
         {
